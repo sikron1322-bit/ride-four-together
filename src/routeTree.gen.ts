@@ -15,8 +15,11 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedBookingsRouteImport } from './routes/_authenticated/bookings'
 import { Route as AuthenticatedBookingBookingIdRouteImport } from './routes/_authenticated/booking.$bookingId'
 import { Route as AuthenticatedCheckoutRideIdRouteImport } from './routes/_authenticated/checkout.$rideId'
+import { Route as AuthenticatedDriverIndexRouteImport } from './routes/_authenticated/driver.index'
+import { Route as AuthenticatedDriverNewRouteImport } from './routes/_authenticated/driver.new'
 import { Route as AuthenticatedRidesIndexRouteImport } from './routes/_authenticated/rides.index'
 import { Route as AuthenticatedRidesRideIdRouteImport } from './routes/_authenticated/rides.$rideId'
+import { Route as AuthenticatedDriverRideIdEditRouteImport } from './routes/_authenticated/driver.$rideId.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -49,6 +52,17 @@ const AuthenticatedCheckoutRideIdRoute =
     path: '/checkout/$rideId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDriverIndexRoute =
+  AuthenticatedDriverIndexRouteImport.update({
+    id: '/driver/',
+    path: '/driver/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDriverNewRoute = AuthenticatedDriverNewRouteImport.update({
+  id: '/driver/new',
+  path: '/driver/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRidesIndexRoute = AuthenticatedRidesIndexRouteImport.update({
   id: '/rides/',
   path: '/rides/',
@@ -60,6 +74,12 @@ const AuthenticatedRidesRideIdRoute =
     path: '/rides/$rideId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDriverRideIdEditRoute =
+  AuthenticatedDriverRideIdEditRouteImport.update({
+    id: '/driver/$rideId/edit',
+    path: '/driver/$rideId/edit',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,8 +87,11 @@ export interface FileRoutesByFullPath {
   '/bookings': typeof AuthenticatedBookingsRoute
   '/booking/$bookingId': typeof AuthenticatedBookingBookingIdRoute
   '/checkout/$rideId': typeof AuthenticatedCheckoutRideIdRoute
+  '/driver/new': typeof AuthenticatedDriverNewRoute
   '/rides/$rideId': typeof AuthenticatedRidesRideIdRoute
+  '/driver/': typeof AuthenticatedDriverIndexRoute
   '/rides/': typeof AuthenticatedRidesIndexRoute
+  '/driver/$rideId/edit': typeof AuthenticatedDriverRideIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,8 +99,11 @@ export interface FileRoutesByTo {
   '/bookings': typeof AuthenticatedBookingsRoute
   '/booking/$bookingId': typeof AuthenticatedBookingBookingIdRoute
   '/checkout/$rideId': typeof AuthenticatedCheckoutRideIdRoute
+  '/driver/new': typeof AuthenticatedDriverNewRoute
   '/rides/$rideId': typeof AuthenticatedRidesRideIdRoute
+  '/driver': typeof AuthenticatedDriverIndexRoute
   '/rides': typeof AuthenticatedRidesIndexRoute
+  '/driver/$rideId/edit': typeof AuthenticatedDriverRideIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +113,11 @@ export interface FileRoutesById {
   '/_authenticated/bookings': typeof AuthenticatedBookingsRoute
   '/_authenticated/booking/$bookingId': typeof AuthenticatedBookingBookingIdRoute
   '/_authenticated/checkout/$rideId': typeof AuthenticatedCheckoutRideIdRoute
+  '/_authenticated/driver/new': typeof AuthenticatedDriverNewRoute
   '/_authenticated/rides/$rideId': typeof AuthenticatedRidesRideIdRoute
+  '/_authenticated/driver/': typeof AuthenticatedDriverIndexRoute
   '/_authenticated/rides/': typeof AuthenticatedRidesIndexRoute
+  '/_authenticated/driver/$rideId/edit': typeof AuthenticatedDriverRideIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -98,8 +127,11 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/booking/$bookingId'
     | '/checkout/$rideId'
+    | '/driver/new'
     | '/rides/$rideId'
+    | '/driver/'
     | '/rides/'
+    | '/driver/$rideId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -107,8 +139,11 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/booking/$bookingId'
     | '/checkout/$rideId'
+    | '/driver/new'
     | '/rides/$rideId'
+    | '/driver'
     | '/rides'
+    | '/driver/$rideId/edit'
   id:
     | '__root__'
     | '/'
@@ -117,8 +152,11 @@ export interface FileRouteTypes {
     | '/_authenticated/bookings'
     | '/_authenticated/booking/$bookingId'
     | '/_authenticated/checkout/$rideId'
+    | '/_authenticated/driver/new'
     | '/_authenticated/rides/$rideId'
+    | '/_authenticated/driver/'
     | '/_authenticated/rides/'
+    | '/_authenticated/driver/$rideId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +209,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCheckoutRideIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/driver/': {
+      id: '/_authenticated/driver/'
+      path: '/driver'
+      fullPath: '/driver/'
+      preLoaderRoute: typeof AuthenticatedDriverIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/driver/new': {
+      id: '/_authenticated/driver/new'
+      path: '/driver/new'
+      fullPath: '/driver/new'
+      preLoaderRoute: typeof AuthenticatedDriverNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/rides/': {
       id: '/_authenticated/rides/'
       path: '/rides'
@@ -185,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRidesRideIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/driver/$rideId/edit': {
+      id: '/_authenticated/driver/$rideId/edit'
+      path: '/driver/$rideId/edit'
+      fullPath: '/driver/$rideId/edit'
+      preLoaderRoute: typeof AuthenticatedDriverRideIdEditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -192,16 +251,22 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBookingsRoute: typeof AuthenticatedBookingsRoute
   AuthenticatedBookingBookingIdRoute: typeof AuthenticatedBookingBookingIdRoute
   AuthenticatedCheckoutRideIdRoute: typeof AuthenticatedCheckoutRideIdRoute
+  AuthenticatedDriverNewRoute: typeof AuthenticatedDriverNewRoute
   AuthenticatedRidesRideIdRoute: typeof AuthenticatedRidesRideIdRoute
+  AuthenticatedDriverIndexRoute: typeof AuthenticatedDriverIndexRoute
   AuthenticatedRidesIndexRoute: typeof AuthenticatedRidesIndexRoute
+  AuthenticatedDriverRideIdEditRoute: typeof AuthenticatedDriverRideIdEditRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBookingsRoute: AuthenticatedBookingsRoute,
   AuthenticatedBookingBookingIdRoute: AuthenticatedBookingBookingIdRoute,
   AuthenticatedCheckoutRideIdRoute: AuthenticatedCheckoutRideIdRoute,
+  AuthenticatedDriverNewRoute: AuthenticatedDriverNewRoute,
   AuthenticatedRidesRideIdRoute: AuthenticatedRidesRideIdRoute,
+  AuthenticatedDriverIndexRoute: AuthenticatedDriverIndexRoute,
   AuthenticatedRidesIndexRoute: AuthenticatedRidesIndexRoute,
+  AuthenticatedDriverRideIdEditRoute: AuthenticatedDriverRideIdEditRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
