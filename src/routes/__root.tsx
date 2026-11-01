@@ -130,7 +130,7 @@ function RootComponent() {
       <main>
         <Outlet />
       </main>
-      <Toaster position="top-center" dir="rtl" />
+      <Toaster position="top-center" dir="rtl" theme="dark" richColors />
     </QueryClientProvider>
   );
 }
