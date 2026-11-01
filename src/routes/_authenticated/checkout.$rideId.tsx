@@ -125,7 +125,7 @@ function CheckoutPage() {
                 <div className="relative" dir="ltr">
                   <div className="mb-1 h-8 w-11 rounded-md bg-foreground/30" />
                   <div className="mt-4 font-mono text-xl tracking-[0.18em] md:text-2xl">
-                    {formatCardNumber(card).padEnd(19, "•").replace(/(.{4})(?=.)/g, (m) => m)}
+                    {card.replace(/\D/g, "").padEnd(16, "•").replace(/(.{4})(?=.)/g, "$1 ")}
                   </div>
                   <div className="mt-4 flex items-end justify-between text-sm">
                     <div>
