@@ -14,16 +14,202 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          card_last4: string
+          created_at: string
+          email: string
+          id: string
+          passenger_id: string
+          passenger_name: string
+          ride_id: string
+          seats: number
+          status: string
+          total_price: number
+        }
+        Insert: {
+          card_last4: string
+          created_at?: string
+          email: string
+          id?: string
+          passenger_id: string
+          passenger_name?: string
+          ride_id: string
+          seats: number
+          status?: string
+          total_price: number
+        }
+        Update: {
+          card_last4?: string
+          created_at?: string
+          email?: string
+          id?: string
+          passenger_id?: string
+          passenger_name?: string
+          ride_id?: string
+          seats?: number
+          status?: string
+          total_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_ride_id_fkey"
+            columns: ["ride_id"]
+            isOneToOne: false
+            referencedRelation: "rides"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cities: {
+        Row: {
+          id: number
+          name: string
+          tagline: string
+        }
+        Insert: {
+          id?: number
+          name: string
+          tagline?: string
+        }
+        Update: {
+          id?: number
+          name?: string
+          tagline?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      rides: {
+        Row: {
+          car_model: string
+          created_at: string
+          departure_at: string
+          destination_id: number
+          driver_id: string | null
+          driver_name: string
+          id: string
+          notes: string
+          origin_id: number
+          price: number
+          seats_booked: number
+          seats_total: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          car_model?: string
+          created_at?: string
+          departure_at: string
+          destination_id: number
+          driver_id?: string | null
+          driver_name: string
+          id?: string
+          notes?: string
+          origin_id: number
+          price: number
+          seats_booked?: number
+          seats_total?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          car_model?: string
+          created_at?: string
+          departure_at?: string
+          destination_id?: number
+          driver_id?: string | null
+          driver_name?: string
+          id?: string
+          notes?: string
+          origin_id?: number
+          price?: number
+          seats_booked?: number
+          seats_total?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rides_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rides_origin_id_fkey"
+            columns: ["origin_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      become_driver: { Args: never; Returns: undefined }
+      book_ride: {
+        Args: {
+          _card_number: string
+          _email: string
+          _passenger_name: string
+          _ride_id: string
+          _seats: number
+        }
+        Returns: string
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "driver" | "passenger"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +336,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["driver", "passenger"],
+    },
   },
 } as const
