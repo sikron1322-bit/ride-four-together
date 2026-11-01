@@ -70,7 +70,7 @@ export function RideForm({
       notes,
     });
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
+      toast.error(parsed.error.issues[0]?.message ?? "שגיאה בטופס");
       return;
     }
     onSubmit(parsed.data);

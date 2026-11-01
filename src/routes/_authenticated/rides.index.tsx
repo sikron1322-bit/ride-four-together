@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_authenticated/rides/")({
 
 function RidesPage() {
   const search = Route.useSearch();
-  const navigate = useNavigate({ from: "/rides" });
+  const navigate = useNavigate({ from: "/rides/" });
   const { data: cities = [] } = useQuery(citiesQuery());
   const { data: rides } = useSuspenseQuery(openRidesQuery(search));
 

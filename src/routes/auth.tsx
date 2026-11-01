@@ -57,7 +57,7 @@ function AuthPage() {
     e.preventDefault();
     const parsed = credsSchema.safeParse({ email, password, fullName });
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
+      toast.error(parsed.error.issues[0]?.message ?? "שגיאה בטופס");
       return;
     }
     if (mode === "signup" && !parsed.data.fullName) {

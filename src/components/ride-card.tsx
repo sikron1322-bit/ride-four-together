@@ -4,7 +4,7 @@ import { fmtDay, fmtPrice, fmtTime, seatsLeft, type Ride } from "@/lib/rides";
 import { SeatMeter } from "./seat-meter";
 import { cn } from "@/lib/utils";
 
-export function RouteLine({ from, to, big }: { from?: string; to?: string; big?: boolean }) {
+export function RouteLine({ from, to, big }: { from?: string | undefined; to?: string | undefined; big?: boolean }) {
   return (
     <div className="flex items-center gap-3">
       <span className={cn("font-bold", big ? "text-2xl md:text-3xl" : "text-lg")}>{from}</span>

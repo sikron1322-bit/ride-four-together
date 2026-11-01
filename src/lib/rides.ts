@@ -25,7 +25,7 @@ export const citiesQuery = () =>
     staleTime: 1000 * 60 * 30,
   });
 
-export const openRidesQuery = (filters: { from?: number; to?: number }) =>
+export const openRidesQuery = (filters: { from?: number | undefined; to?: number | undefined }) =>
   queryOptions({
     queryKey: ["rides", "open", filters],
     queryFn: async () => {

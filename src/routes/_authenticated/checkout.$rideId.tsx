@@ -66,16 +66,16 @@ function CheckoutPage() {
   const seats = Math.min(requested, seatsLeft(ride));
   const total = bookingTotal(Number(ride.price), seats);
 
-  async function pay(e: React.FormEvent) {
+  async function pay(e: React.FormEvent): Promise<void> {
     e.preventDefault();
     if (!ride) return;
     const emailOk = z.string().trim().email().max(255).safeParse(email);
-    if (!name.trim()) return toast.error("נא למלא שם בעל הכרטיס");
-    if (!emailOk.success) return toast.error("כתובת מייל לא תקינה");
-    if (!isAcceptedCard(card)) return toast.error("הכרטיס נדחה. השתמשו באחד מכרטיסי הבדיקה.");
-    if (!isValidExpiry(exp)) return toast.error("תוקף הכרטיס לא תקין");
-    if (!/^\d{3,4}$/.test(cvv)) return toast.error("CVV לא תקין");
-    if (seats < 1) return toast.error("אין מקומות פנויים");
+    if (!name.trim()) { toast.error("נא למלא שם בעל הכרטיס"); return; }
+    if (!emailOk.success) { toast.error("כתובת מייל לא תקינה"); return; }
+    if (!isAcceptedCard(card)) { toast.error("הכרטיס נדחה. השתמשו באחד מכרטיסי הבדיקה."); return; }
+    if (!isValidExpiry(exp)) { toast.error("תוקף הכרטיס לא תקין"); return; }
+    if (!/^\d{3,4}$/.test(cvv)) { toast.error("CVV לא תקין"); return; }
+    if (seats < 1) { toast.error("אין מקומות פנויים"); return; }
 
     setPaying(true);
     const { data, error } = await supabase.rpc("book_ride", {
