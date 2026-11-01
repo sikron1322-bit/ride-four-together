@@ -5,20 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Design system — "Night Highway"
+ * Deep ink asphalt, amber headlight primary, teal signal accent.
+ * All colors in oklch. Single (dark) theme.
  */
 
 @theme inline {
+  --font-display: "Karantina", "Assistant", system-ui, sans-serif;
+  --font-sans: "Assistant", system-ui, sans-serif;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -34,12 +29,15 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-signal: var(--signal);
+  --color-success: var(--success);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -59,77 +57,65 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --animate-dash: dash 1.6s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-rise: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
+  --radius: 1rem;
+  --background: oklch(0.16 0.03 248);
+  --foreground: oklch(0.96 0.02 85);
+  --card: oklch(0.21 0.035 248);
+  --card-foreground: oklch(0.96 0.02 85);
+  --popover: oklch(0.2 0.035 248);
+  --popover-foreground: oklch(0.96 0.02 85);
+  --primary: oklch(0.8 0.165 65);
+  --primary-glow: oklch(0.68 0.2 38);
+  --primary-foreground: oklch(0.17 0.03 248);
+  --secondary: oklch(0.27 0.035 248);
+  --secondary-foreground: oklch(0.96 0.02 85);
+  --muted: oklch(0.25 0.03 248);
+  --muted-foreground: oklch(0.72 0.03 240);
+  --accent: oklch(0.3 0.05 215);
+  --accent-foreground: oklch(0.92 0.06 190);
+  --signal: oklch(0.82 0.13 190);
+  --success: oklch(0.8 0.17 150);
+  --destructive: oklch(0.65 0.21 25);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.33 0.03 248);
+  --input: oklch(0.33 0.03 248);
+  --ring: oklch(0.8 0.165 65);
+  --chart-1: oklch(0.8 0.165 65);
+  --chart-2: oklch(0.82 0.13 190);
+  --chart-3: oklch(0.68 0.2 38);
+  --chart-4: oklch(0.8 0.17 150);
+  --chart-5: oklch(0.72 0.03 240);
+  --sidebar: oklch(0.19 0.03 248);
+  --sidebar-foreground: oklch(0.96 0.02 85);
+  --sidebar-primary: oklch(0.8 0.165 65);
+  --sidebar-primary-foreground: oklch(0.17 0.03 248);
+  --sidebar-accent: oklch(0.27 0.035 248);
+  --sidebar-accent-foreground: oklch(0.96 0.02 85);
+  --sidebar-border: oklch(0.33 0.03 248);
+  --sidebar-ring: oklch(0.8 0.165 65);
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --gradient-headlight: linear-gradient(120deg, var(--primary), var(--primary-glow));
+  --gradient-night: radial-gradient(
+      1200px 600px at 85% -10%,
+      color-mix(in oklab, var(--primary-glow) 22%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 0% 110%,
+      color-mix(in oklab, var(--signal) 14%, transparent),
+      transparent 60%
+    ),
+    var(--background);
+  --gradient-fade: linear-gradient(180deg, transparent 0%, var(--background) 92%);
+  --shadow-glow: 0 18px 50px -18px color-mix(in oklab, var(--primary) 65%, transparent);
+  --shadow-card: 0 24px 60px -30px oklch(0 0 0 / 70%);
 }
 
 @layer base {
@@ -137,8 +123,101 @@
     border-color: var(--color-border);
   }
 
+  html {
+    font-family: var(--font-sans);
+  }
+
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-night);
+    background-attachment: fixed;
     color: var(--color-foreground);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--foreground) 9%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+@utility bg-headlight {
+  background-image: var(--gradient-headlight);
+}
+
+@utility text-headlight {
+  background-image: var(--gradient-headlight);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility bg-fade {
+  background-image: var(--gradient-fade);
+}
+
+/* Boarding-pass style ticket with side notches */
+@utility ticket {
+  position: relative;
+  -webkit-mask:
+    radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+}
+
+/* Animated dashed road line */
+@utility road-line {
+  background-image: linear-gradient(
+    90deg,
+    var(--primary) 0 50%,
+    transparent 50% 100%
+  );
+  background-size: 18px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 50%;
+  height: 2px;
+}
+
+@keyframes dash {
+  to {
+    background-position: -36px 50%;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
