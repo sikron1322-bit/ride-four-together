@@ -31,6 +31,11 @@ const credsSchema = z.object({
   fullName: z.string().trim().max(100),
 });
 
+// Shared "global" login: username `demo` / password `123456` maps to one real Supabase account.
+const DEMO_USERNAME = "demo";
+const DEMO_PASSWORD = "123456";
+const DEMO_EMAIL = "demo@netiv-demo.app";
+
 function safePath(p?: string) {
   if (!p) return "/rides";
   try {
@@ -53,8 +58,38 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
+  async function demoLogin() {
+    setLoading(true);
+    try {
+      const creds = { email: DEMO_EMAIL, password: DEMO_PASSWORD };
+      let { error } = await supabase.auth.signInWithPassword(creds);
+      if (error) {
+        // First use: create the shared demo account.
+        const res = await supabase.auth.signUp({
+          ...creds,
+          options: { data: { full_name: "משתמש כללי", role: "passenger" } },
+        });
+        if (res.error) throw res.error;
+        if (!res.data.session) {
+          const retry = await supabase.auth.signInWithPassword(creds);
+          error = retry.error;
+          if (error) throw error;
+        }
+      }
+      navigate({ href: safePath(redirect), replace: true });
+    } catch {
+      toast.error("כניסה כללית נכשלה. ייתכן שהסיסמה קצרה מדי להגדרות השרת.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (mode === "signin" && email.trim().toLowerCase() === DEMO_USERNAME && password === DEMO_PASSWORD) {
+      await demoLogin();
+      return;
+    }
     const parsed = credsSchema.safeParse({ email, password, fullName });
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? "שגיאה בטופס");
@@ -158,8 +193,8 @@ function AuthPage() {
                   </Field>
                 </>
               )}
-              <Field label="מייל">
-                <Input type="email" dir="ltr" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+              <Field label={mode === "signin" ? "מייל או שם משתמש" : "מייל"}>
+                <Input type="text" inputMode="email" dir="ltr" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
               </Field>
               <Field label="סיסמה">
                 <Input
